@@ -17,3 +17,9 @@ def project():
 			"Date:" +str(datetime.datetime.now())
 			}
 
+@app.get("/hello")
+
+def hello():
+	return {"message": "Hello, World!"}
+			
+			
