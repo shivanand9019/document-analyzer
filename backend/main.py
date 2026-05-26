@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-import datetime
+from fastapi import File, UploadFile
 
 app = FastAPI()
 
@@ -8,18 +8,19 @@ def home():
 	return {"Backend is running!!"}
 
 
-@app.get("/project")
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    
+    file_location = f"uploads/{file.filename}"
 
-def project():
+    with open(file_location, "wb") as f:
+        f.write(await file.read())
 
-	return {"Project name :AI document analyzer",
-			"Status: Building",
-			"Date:" +str(datetime.datetime.now())
-			}
+    return {
+        "message": "File uploaded successfully",
+        "filename": file.filename
+    }
 
-@app.get("/hello")
 
-def hello():
-	return {"message": "Hello, World!"}
 			
 			
