@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-from fastapi import File, UploadFile
+from fastapi import FastAPI,File, UploadFile
+from services.pdf_processing import extract_text_from_pdf
 
 app = FastAPI()
 
@@ -16,9 +16,13 @@ async def upload_file(file: UploadFile = File(...)):
     with open(file_location, "wb") as f:
         f.write(await file.read())
 
+    text = extract_text_from_pdf(file_location)
+
+
     return {
         "message": "File uploaded successfully",
-        "filename": file.filename
+        "filename": file.filename,
+        "text":text
     }
 
 
