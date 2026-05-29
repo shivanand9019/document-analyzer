@@ -1,4 +1,5 @@
 import pypdf
+from fastapi import HTTPException
 
 def extract_text_from_pdf(file_path):
    
@@ -11,5 +12,5 @@ def extract_text_from_pdf(file_path):
 
         return text
     except Exception as e:
-        print(f"Error extracting text from PDF: {e}")
-        return None
+        return HTTPException(status_code=500, detail="Error processing the PDF file.")
+    
